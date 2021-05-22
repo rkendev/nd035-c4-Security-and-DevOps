@@ -50,7 +50,7 @@ public class CartController {
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
-			.forEach(i -> cart.addItem(item.get()));
+				.forEach(i -> cart.addItem(item.get()));
 		cartRepository.save(cart);
 		log.info("cart updated - item added");
 		return ResponseEntity.ok(cart);
@@ -70,7 +70,7 @@ public class CartController {
 		}
 		Cart cart = user.getCart();
 		IntStream.range(0, request.getQuantity())
-			.forEach(i -> cart.removeItem(item.get()));
+				.forEach(i -> cart.removeItem(item.get()));
 		cartRepository.save(cart);
 		log.info("cart updated - item removed");
 		return ResponseEntity.ok(cart);

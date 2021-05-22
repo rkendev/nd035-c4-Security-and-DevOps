@@ -238,7 +238,6 @@ public class CartControllerTest {
         modifyCartRequest.setQuantity(1);
 
         when(userRepository.findByUsername(anyString())).thenReturn(user);
-        //when(itemRepository.findById(anyLong())).thenReturn(Optional.of(items));
         ResponseEntity<Cart> responseEntity = cartController.removeFromcart(modifyCartRequest);
         assertNotNull(responseEntity);
         assertEquals(404, responseEntity.getStatusCodeValue());
