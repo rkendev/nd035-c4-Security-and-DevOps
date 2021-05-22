@@ -46,6 +46,13 @@ public class UserController {
 
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+
+		User existingUser = userRepository.findByUsername(createUserRequest.getUsername());
+		if(existingUser != null){
+            log.error("User name "+createUserRequest.getUsername()+" already exists!");
+            return ResponseEntity.badRequest().build();
+        }
+
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		log.info("username set with " + user.getUsername());
@@ -79,5 +86,7 @@ public class UserController {
 		log.info("user created");
 		return ResponseEntity.ok(user);
 	}
+
+
 
 }

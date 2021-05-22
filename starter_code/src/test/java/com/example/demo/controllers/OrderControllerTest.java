@@ -24,7 +24,12 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class OrderControllerTest {
+
+    private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
     UserController userController;
 
@@ -53,32 +58,38 @@ public class OrderControllerTest {
     }
     @Test
     public void submitTest(){
+        log.info("user order test- begin");
+
         when(encoder.encode("testPassword")).thenReturn("this is Hashed");
         ResponseEntity<User> response = createNewUser();
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
+        log.info("user order test- user created");
 
         User user = new User();
         user.setUsername("test");
         when(userRepository.findByUsername(anyString())).thenReturn(user);
         Cart cart = new Cart();
-        //UserOrder order = new UserOrder();
         Item items = new Item();
         items.setDescription("bicycle");
         items.setId(0L);
         items.setName("bicycle");
         items.setPrice(new BigDecimal(880.00));
-        //List<Item> itemList = new ArrayList<>();
-        //itemList.add(items);
         cart.addItem(items);
         user.setCart(cart);
+        log.info("user order test- cart operation complete");
+
         ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit(user.getUsername());
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
+        log.info("user order test- success, end");
+
+
+
     }
     @Test
     public void submitTest_cannot_find_user(){
-        ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit("Charles");
+        ResponseEntity<UserOrder> userOrderResponseEntity = orderController.submit("John");
         assertNotNull(userOrderResponseEntity);
         assertEquals(404, userOrderResponseEntity.getStatusCodeValue());
     }
